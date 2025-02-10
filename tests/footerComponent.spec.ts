@@ -3,6 +3,7 @@ import { ProfilePage } from "../pages/profile.page";
 import { Header } from "../components/header.component";
 import { Footer } from "../components/footer.component";
 import { checkFullLink, checkLink } from "../utils/chceckLink";
+import exp from "constants";
 
 test.describe("test", () => {
   let profilePage: ProfilePage;
@@ -38,7 +39,7 @@ test.describe("test", () => {
     await expect(footer.youTubeIconContactFooter).toBeVisible();
   });
 
-  test("Footer - About collumn", async ({ page }) => {
+  test("About collumn - check text", async ({ page }) => {
     await expect(footer.aboutHeaderFooter).toHaveText("About");
     await expect(footer.aboutUsAboutFooter).toHaveText("About us");
     await expect(footer.deliveryInformationAboutFooter).toHaveText(
@@ -53,7 +54,9 @@ test.describe("test", () => {
     await expect(footer.contactUsAboutFooter).toHaveText("Contact Us");
   });
 
-  test("Footer - About us link opens in new tab (force)", async ({ page }) => {
+  test("About collumn - chceck links from buttons using new page opener function - ACCURE", async ({
+    page,
+  }) => {
     const expectedHref = "construction.html";
     await checkFullLink(page, footer.aboutUsAboutFooter, expectedHref);
     await checkFullLink(
@@ -70,17 +73,61 @@ test.describe("test", () => {
     await checkFullLink(page, footer.contactUsAboutFooter, expectedHref);
   });
 
-  test("test", async ({ page }) => {
-    const expectedHref = "construction.html";
+  // Uncomment to use !!!
 
-    await checkLink(page, footer.aboutUsAboutFooter, expectedHref);
-    await checkLink(page, footer.deliveryInformationAboutFooter, expectedHref);
-    await checkLink(page, footer.privacyPolicyUsAboutFooter, expectedHref);
-    await checkLink(
-      page,
-      footer.termsAndConditionstUsAboutFooter,
-      expectedHref
+  // test("About collumn - checek links from buttons - FAST", async ({
+  //   page,
+  // }) => {
+  //   const expectedHref = "construction.html";
+
+  //   await checkLink(page, footer.aboutUsAboutFooter, expectedHref);
+  //   await checkLink(page, footer.deliveryInformationAboutFooter, expectedHref);
+  //   await checkLink(page, footer.privacyPolicyUsAboutFooter, expectedHref);
+  //   await checkLink(
+  //     page,
+  //     footer.termsAndConditionstUsAboutFooter,
+  //     expectedHref
+  //   );
+  //   await checkLink(page, footer.contactUsAboutFooter, expectedHref);
+  // });
+
+  test("My account collumn - check text", async ({ page }) => {
+    await expect(footer.myAccountHeaderFooter).toHaveText("My Account");
+    await expect(footer.signInAccountFooter).toHaveText("Sign In");
+    await expect(footer.viewCartAccountFooter).toHaveText("View Cart");
+    await expect(footer.myWishlistAccountFooter).toHaveText("My Wishlist");
+    await expect(footer.trackMyOrderAccountFooter).toHaveText("Track My Order");
+    await expect(footer.helpAccoutnFooter).toHaveText("Help");
+  });
+
+  test("My account collumn - chceck links from buttons using new page opener function - ACCURE ", async ({
+    page,
+  }) => {
+    const expectedHref = "construction.html";
+    await checkFullLink(page, footer.signInAccountFooter, expectedHref);
+    await checkFullLink(page, footer.viewCartAccountFooter, expectedHref);
+    await checkFullLink(page, footer.myWishlistAccountFooter, expectedHref);
+    await checkFullLink(page, footer.trackMyOrderAccountFooter, expectedHref);
+    await checkFullLink(page, footer.helpAccoutnFooter, expectedHref);
+  });
+
+  test("Install App - check text", async ({ page }) => {
+    //
+    await expect(footer.installAppHeaderFooter).toHaveText("Install App");
+    await expect(footer.installAppDescriptionFooter).toHaveText(
+      "From App Store or Google Play"
     );
-    await checkLink(page, footer.contactUsAboutFooter, expectedHref);
+    await expect(footer.appStoreButtonInstallFooter).toBeVisible();
+    await expect(footer.googlePlayButtonInstallFooter).toBeVisible();
+    await expect(footer.paymentMethodsInstallFooter).toHaveText(
+      "Secured Payment Gateway"
+    );
+    await expect(footer.paymentMethodsButtonInstallFooter).toBeVisible();
+
+    // Copywright
+    const currentYear = new Date().getFullYear();
+    await expect(footer.copywrightFooter).toHaveText(
+      `Created By Dawid M | All Rights Reserved | © ${currentYear.toString()}`
+    );
   });
 });
