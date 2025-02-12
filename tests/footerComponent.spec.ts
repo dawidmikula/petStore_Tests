@@ -3,7 +3,6 @@ import { ProfilePage } from "../pages/profile.page";
 import { Header } from "../components/header.component";
 import { Footer } from "../components/footer.component";
 import { checkFullLink, checkLink } from "../utils/chceckLink";
-import exp from "constants";
 
 test.describe("test", () => {
   let profilePage: ProfilePage;

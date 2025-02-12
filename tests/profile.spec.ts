@@ -16,6 +16,7 @@ test.describe("test", () => {
   });
 
   test("Check all visible text on Profile tab", async ({ page }) => {
+    await expect(await page.title()).toBe("YourPuppy - Profile")
     await expect(profilePage.myProfileTittle).toHaveText("My Profile");
     await expect(profilePage.myProfileDesription).toHaveText(
       "Manage your personal information"

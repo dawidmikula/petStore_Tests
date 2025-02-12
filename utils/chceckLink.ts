@@ -7,7 +7,9 @@ export async function checkLink(
 ) {
   const href = await linkLocator.getAttribute("href");
   if (!href) {
-    throw new Error(`Nie znaleziono atrybutu href w linku/przycisku: ${await linkLocator.innerText()}`);
+    throw new Error(
+      `Nie znaleziono atrybutu href w linku/przycisku: ${await linkLocator.innerText()}`
+    );
   }
   await expect(href).toBe(expectedHref);
 }
@@ -15,7 +17,7 @@ export async function checkLink(
 export async function checkFullLink(
   page: Page,
   linkLocator: Locator,
-  expectedHref
+  expectedHref: string //tu nie było string
 ) {
   const aboutUsUrl = await linkLocator.getAttribute("href");
   const newTab = await page.context().newPage();
