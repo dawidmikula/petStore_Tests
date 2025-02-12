@@ -1,8 +1,10 @@
 import { test, expect } from "@playwright/test";
 import { ProfilePage } from "../pages/profile.page";
 import { Header } from "../components/header.component";
-import { CartPage } from "../pages/cart.page";
+import { CartPage, quantityRow } from "../pages/cart.page";
 import { cartToTable } from "../utils/cartToTable";
+import { cleanNumber } from "../utils/cleanNumber";
+import { sumCart } from "../utils/sumCart";
 
 test.describe("test", () => {
   let profilePage: ProfilePage;
@@ -18,7 +20,8 @@ test.describe("test", () => {
     await header.cartButton.click();
   });
 
-  test("Cart", async ({ page }) => {
+  test("Cart - text checking", async ({ page }) => {
+    await expect(await page.title()).toBe("YourPuppy - Cart");
     await expect(cartPage.headerCart).toHaveText("#Cart");
     await expect(cartPage.headerDescriptionCart).toHaveText(
       "Add your coupon code & SAVE up to 70%!"
@@ -43,14 +46,30 @@ test.describe("test", () => {
     // await expect(cartPage.).toHaveText("");
   });
 
-  test("Iteracja po wierszach tabeli", async ({ page }) => {
+  test("Cart - base values checking", async ({ page }) => {
     const tableData = await cartToTable(page);
-
-    console.log(tableData); // Możesz zobaczyć strukturę tabeli
     expect(tableData.length).toBeGreaterThan(0);
+
+    const totalSum = sumCart(tableData);
+    const cartSubtotal = await page.locator("#cart-subtotal").innerText();
+    expect(cartSubtotal).not.toBe("");
+
+    await expect(cleanNumber(cartSubtotal)).toBe(totalSum);
   });
 
-  test("Cart 2", async ({ page }) => {
-    //
+  test("Cart - changed values checking", async ({ page }) => {
+    quantityRow(page, 1, 11);
+    quantityRow(page, 2, 1);
+    quantityRow(page, 3, 2);
+
+    const tableData = await cartToTable(page);
+    expect(tableData.length).toBeGreaterThan(0);
+
+    const totalSum = sumCart(tableData);
+    const cartSubtotal = await page.locator("#cart-subtotal").innerText();
+    expect(cartSubtotal).not.toBe("");
+    console.log(cartSubtotal);
+
+    expect(cleanNumber(cartSubtotal)).toBe(totalSum);
   });
 });
