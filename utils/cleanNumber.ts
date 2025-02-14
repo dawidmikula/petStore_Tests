@@ -1,8 +1,13 @@
-export function cleanNumber(providedString: string): number {
-  if (!providedString) return 0; // Jeśli pusta wartość, zwracamy 0
+export function cleanNumber(providedString: unknown): number {
+  // ✅ Konwersja na string, jeśli to nie jest string
+  const value =
+    typeof providedString === "string"
+      ? providedString
+      : String(providedString);
 
-  // Usuwamy "$", zamieniamy przecinki na kropki i parsujemy do liczby
-  const cleanedValue = providedString.replace(/[^0-9.]/g, "");
+  if (value.toLowerCase() === "free") return 0;
 
-  return parseFloat(cleanedValue) || 0; // Jeśli `NaN`, zwracamy `0`
+  // ✅ Usuwamy niepotrzebne znaki i zamieniamy na liczbę
+  const cleanedValue = value.replace(/[^0-9.]/g, "");
+  return parseFloat(cleanedValue) || 0;
 }
