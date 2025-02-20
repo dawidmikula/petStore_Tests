@@ -57,37 +57,35 @@ test.describe("test", () => {
   // });
 
   test("Cart - deleting porducts", async ({ page }) => {
-    const columnDataBeforeDelete: string[] = [];
-    const columnDataAfterDelete: string[] = [];
-    const indexDelete = 2;
     await page.waitForSelector("table tbody tr td:nth-child(3)", {
       timeout: 5000,
     });
-
+    // Save data before delete
     const cells = await page.locator("table tbody tr td:nth-child(3)").all();
+    const columnDataBeforeDelete: string[] = [];
     for (const cell of cells) {
       columnDataBeforeDelete.push(await cell.innerText());
     }
-
+    // Delete last -1
+    const indexDelete = columnDataBeforeDelete.length - 1;
     if (columnDataBeforeDelete.length < indexDelete) {
       throw new Error("Błąd: Index do usunięcia większy niż długość tabeli!");
     }
     const targetValue = columnDataBeforeDelete[indexDelete - 1];
-
     await page
       .locator(".remove-item")
       .nth(indexDelete - 1)
       .click();
-
+    // Save data after delete
     const cellsAfterDelete = await page
       .locator("table tbody tr td:nth-child(3)")
       .all();
+    const columnDataAfterDelete: string[] = [];
     for (const cell of cellsAfterDelete) {
       columnDataAfterDelete.push(await cell.innerText());
     }
-
+    // Assert result
     const isRecordDeleted = !columnDataAfterDelete.includes(targetValue);
-
     expect(isRecordDeleted).toBe(true);
   });
 
@@ -120,5 +118,34 @@ test.describe("test", () => {
       cleanNumber(await cartPage.totalCostValue.innerText()) +
         cleanNumber(await cartPage.shippingCostvalue.innerText())
     );
+  });
+
+  test("Cart - Applying incorrect coupon", async ({ page }) => {
+    const couponValues = [11, 22, 98];
+    const valueBeforeCouponApply = cleanNumber(
+      await cartPage.totalCostValue.innerText()
+    );
+
+    for (const value of couponValues) {
+      let dialogMessage = "";
+
+      // Obsługa pojedynczego dialogu
+      const dialogHandler = page.once("dialog", async (dialog) => {
+        dialogMessage = dialog.message();
+        await dialog.accept();
+      });
+
+      await cartPage.enterYourCoupon.fill(`save${value}`);
+      await cartPage.applyCouponButton.click();
+      await page.waitForTimeout(200);
+
+      expect(dialogMessage).toBe("❌ Invalid coupon code. Please try again.");
+
+      const valueAfterCouponApply = cleanNumber(
+        await cartPage.totalCostValue.innerText()
+      );
+
+      expect(valueAfterCouponApply).toBe(valueBeforeCouponApply);
+    }
   });
 });
