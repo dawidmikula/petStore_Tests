@@ -31,7 +31,7 @@ test.describe("test", () => {
     await expect(newsletter.newsletterEmailSubmitButton).toHaveText("Sign Up");
   });
 
-  test("Newsletter", async ({ page }) => {
+  test("Newsletter - empty email input", async ({ page }) => {
     await newsletter.newsletterEmailSubmitButton.click();
     await expect(newsletter.newsletterMessage).toHaveText(
       "❌ Please enter a valid email address!"
@@ -40,5 +40,30 @@ test.describe("test", () => {
     await expect(newsletter.newsletterMessage).toBeVisible({ timeout: 500 });
     await page.waitForTimeout(5000);
     await expect(newsletter.newsletterMessage).toBeHidden({ timeout: 500 });
+  });
+
+  test("Newsletter - enter incorrect email adress", async ({ page }) => {
+    await newsletter.newletterEmailInput.fill("aaa@");
+    await newsletter.newsletterEmailSubmitButton.click();
+    await expect(newsletter.newsletterMessage).toHaveText(
+      "❌ Please enter a valid email address!"
+    );
+
+    await expect(newsletter.newsletterMessage).toBeVisible({ timeout: 500 });
+    await page.waitForTimeout(5000);
+    await expect(newsletter.newsletterMessage).toBeHidden({ timeout: 500 });
+  });
+
+  test("Newsletter - enter correct email", async ({ page }) => {
+    await newsletter.newletterEmailInput.fill("dawid@gmail.com");
+    await newsletter.newsletterEmailSubmitButton.click();
+
+    await expect(newsletter.newsletterMessage).toHaveText(
+      "✅ Thank you for subscribing to our newsletter!"
+    );
+    await expect(newsletter.newsletterMessage).toBeVisible({ timeout: 500 });
+    await page.waitForTimeout(5000);
+    await expect(newsletter.newsletterMessage).toBeHidden({ timeout: 500 });
+    await expect(newsletter.newletterEmailInput).toBeEmpty();
   });
 });
