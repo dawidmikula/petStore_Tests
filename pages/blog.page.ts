@@ -11,6 +11,8 @@ export class BlogPage {
   blogDateResetButton = this.page.locator("#reset-date");
   blogDateFilterMessage = this.page.locator("#filter-message");
   noPostsFoundMessage = this.page.getByText("⚠ No posts found.");
+
+  nextBlogPage = this.page.locator("#pagination a").last();
   //
 }
 

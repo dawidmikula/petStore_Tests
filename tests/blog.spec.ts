@@ -99,7 +99,36 @@ test.describe("test", () => {
   });
 
   test("Blog - check all results", async ({ page }) => {
+    await blogPage.blogDateResetButton.click();
 
+    const paginationLinks = await page.$$eval("#pagination a", (links) =>
+      links
+        .map((link) => link.textContent?.trim())
+        .filter((text) => text && !isNaN(Number(text)))
+        .map(Number)
+    );
+
+    const lastPageNumber =
+      paginationLinks.length > 0 ? Math.max(...paginationLinks) : 0;
+
+    let allBlogPosts: BlogPost[] = [];
+
+    for (let p = 1; p <= lastPageNumber; p++) {
+      const blogPosts = await getBlogPosts(page);
+      expect(blogPosts.length).toBeGreaterThan(0);
+      expect(blogPosts.length).toBeLessThan(6);
+
+      allBlogPosts = [...allBlogPosts, ...blogPosts];
+
+      if (p < lastPageNumber) {
+        await blogPage.nextBlogPage.click();
+      }
+    }
+    expect(allBlogPosts.length).toBeGreaterThan((lastPageNumber - 1) * 5);
+    expect(allBlogPosts.length).toBeLessThan(lastPageNumber * 5 + 1);
+  });
+
+  test("Blog - ", async ({ page }) => {
     //
   });
 });
