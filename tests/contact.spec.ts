@@ -1,7 +1,7 @@
 import test, { expect } from "@playwright/test";
 import { Header } from "../components/header.component";
 import { ContactPage } from "../pages/contact.page";
-import exp from "constants";
+import { validateAndScreenshot } from "../utils/validateAndScreenshot";
 
 test.describe("test", () => {
   let header: Header;
@@ -92,7 +92,7 @@ test.describe("test", () => {
     await contactPage.acceptRegulationsCheckbox.check();
     await contactPage.submitButton.click();
 
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(200);
 
     expect(dialogMessages[0]).toBe(
       "✅ Your message has been sent successfully!" +
@@ -100,10 +100,60 @@ test.describe("test", () => {
     );
   });
 
-  test("Contact - Contact form - Negative", async ({ page }) => {
-    await contactPage.yourNameMessage.fill("");
-    await contactPage.emailMessage.fill("");
-    await contactPage.subjectMessage.fill("");
-    await contactPage.yourMessageContent.fill("");
+  test("Contact - Contact form - Negative Empty", async ({ page }) => {
+    await contactPage.submitButton.click();
+
+    const fields = [
+      {
+        locator: contactPage.yourNameMessage,
+        value: "Dawid",
+        screenshot: "screens/1-name.png",
+        message: "Wypełnij to pole.",
+      },
+      {
+        locator: contactPage.emailMessage,
+        value: "dawid@dawid.pl",
+        screenshot: "screens/2-email.png",
+        message: "Wypełnij to pole.",
+      },
+      {
+        locator: contactPage.subjectMessage,
+        value: "Subject",
+        screenshot: "screens/3-subject.png",
+        message: "Wypełnij to pole.",
+      },
+      {
+        locator: contactPage.yourMessageContent,
+        value: "Content",
+        screenshot: "screens/4-content.png",
+        message: "Wypełnij to pole.",
+      },
+    ];
+
+    for (const field of fields) {
+      await validateAndScreenshot(
+        page,
+        field.locator,
+        field.message,
+        field.screenshot
+      );
+      await field.locator.fill(field.value);
+      await contactPage.submitButton.click();
+    }
+
+    await validateAndScreenshot(
+      page,
+      contactPage.acceptRegulationsCheckbox,
+      "Zaznacz to pole, jeśli chcesz kontynuować.",
+      "screens/5-checkbox.png"
+    );
+
+    await contactPage.subjectMessage.evaluate((el) =>
+      el.scrollIntoView({ block: "center" })
+    );
+    await page.waitForTimeout(200);
+    await contactPage.acceptRegulationsCheckbox.check();
+    await page.waitForTimeout(200);
+    await page.screenshot({ path: "screens/6-viewport.png", fullPage: false });
   });
 });

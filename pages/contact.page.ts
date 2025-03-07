@@ -38,13 +38,4 @@ export class ContactPage {
     '#contact-form :text("I accept the regulations")'
   );
   submitButton = this.page.locator('#contact-form :text("Submit")');
-
-  // personName = (index: number) =>
-  //   this.page.locator(".people .person").nth(index).locator("p span").nth(0);
-  // personRoleandEmail = (index: number) =>
-  //   this.page.locator(".people .person").nth(index).locator("p");
-  // personImage = (index: number) =>
-  //   this.page.locator(".people .person").nth(index).locator("img");
-  // phoneNumber = (index: number) =>
-  //   this.page.locator(".people .person").nth(1).locator(".phone-wrapper");
 }
