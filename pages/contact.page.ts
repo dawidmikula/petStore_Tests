@@ -38,4 +38,10 @@ export class ContactPage {
     '#contact-form :text("I accept the regulations")'
   );
   submitButton = this.page.locator('#contact-form :text("Submit")');
+
+  personCount = this.page.locator(".people .person");
+  personToCheck = (index: number) =>
+    page.locator(".people .person").nth(index);
+  phonePersonToCheck = (index: number) =>
+    page.locator(".phone-wrapper").nth(index);
 }

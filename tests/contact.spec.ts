@@ -2,6 +2,7 @@ import test, { expect } from "@playwright/test";
 import { Header } from "../components/header.component";
 import { ContactPage } from "../pages/contact.page";
 import { validateAndScreenshot } from "../utils/validateAndScreenshot";
+import { assertParseContactInfo } from "../utils/assertParseContactInfo";
 
 test.describe("test", () => {
   let header: Header;
@@ -15,7 +16,7 @@ test.describe("test", () => {
     // await header.contactButton.click();
   });
 
-  test("Contact - text checking ", async ({ page }) => {
+  test("Contact - Text checking ", async ({ page }) => {
     await expect(contactPage.contactUsHeader).toHaveText("CONTACT US");
     await expect(contactPage.contactUsDesc).toHaveText("Meassage!");
 
@@ -101,6 +102,9 @@ test.describe("test", () => {
   });
 
   test("Contact - Contact form - Negative Empty", async ({ page }) => {
+    const messagePl = "Wypełnij to pole.";
+    const messageEng = "Please fill out this field.";
+
     await contactPage.submitButton.click();
 
     const fields = [
@@ -108,25 +112,29 @@ test.describe("test", () => {
         locator: contactPage.yourNameMessage,
         value: "Dawid",
         screenshot: "screens/1-name.png",
-        message: "Wypełnij to pole.",
+        messagePl: messagePl,
+        messageEng: messageEng,
       },
       {
         locator: contactPage.emailMessage,
         value: "dawid@dawid.pl",
         screenshot: "screens/2-email.png",
-        message: "Wypełnij to pole.",
+        messagePl: messagePl,
+        messageEng: messageEng,
       },
       {
         locator: contactPage.subjectMessage,
         value: "Subject",
         screenshot: "screens/3-subject.png",
-        message: "Wypełnij to pole.",
+        messagePl: messagePl,
+        messageEng: messageEng,
       },
       {
         locator: contactPage.yourMessageContent,
         value: "Content",
         screenshot: "screens/4-content.png",
-        message: "Wypełnij to pole.",
+        messagePl: messagePl,
+        messageEng: messageEng,
       },
     ];
 
@@ -134,7 +142,8 @@ test.describe("test", () => {
       await validateAndScreenshot(
         page,
         field.locator,
-        field.message,
+        field.messagePl,
+        field.messageEng,
         field.screenshot
       );
       await field.locator.fill(field.value);
@@ -145,15 +154,25 @@ test.describe("test", () => {
       page,
       contactPage.acceptRegulationsCheckbox,
       "Zaznacz to pole, jeśli chcesz kontynuować.",
+      "Please check this box if you want to proceed.",
       "screens/5-checkbox.png"
     );
 
     await contactPage.subjectMessage.evaluate((el) =>
       el.scrollIntoView({ block: "center" })
     );
-    await page.waitForTimeout(200);
     await contactPage.acceptRegulationsCheckbox.check();
     await page.waitForTimeout(200);
     await page.screenshot({ path: "screens/6-viewport.png", fullPage: false });
+  });
+
+  test("Contact - Contact people", async ({ page }) => {
+    const personCount = await contactPage.personCount.count();
+
+    for (let person = 0; person < personCount; person++) {
+      await assertParseContactInfo(contactPage.personToCheck(person));
+      await contactPage.phonePersonToCheck(person).hover();
+      await assertParseContactInfo(contactPage.personToCheck(person));
+    }
   });
 });
