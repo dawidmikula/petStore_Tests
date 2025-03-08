@@ -8,12 +8,10 @@ import { sumCart } from "../utils/sumCart";
 import { quantityRow } from "../utils/quantityRow";
 
 test.describe("test", () => {
-  let profilePage: ProfilePage;
   let header: Header;
   let cartPage: CartPage;
 
   test.beforeEach(async ({ page }) => {
-    profilePage = new ProfilePage(page);
     header = new Header(page);
     cartPage = new CartPage(page);
 
@@ -60,13 +58,13 @@ test.describe("test", () => {
     await page.waitForSelector("table tbody tr td:nth-child(3)", {
       timeout: 5000,
     });
-    // Save data before delete
+
     const cells = await page.locator("table tbody tr td:nth-child(3)").all();
     const columnDataBeforeDelete: string[] = [];
     for (const cell of cells) {
       columnDataBeforeDelete.push(await cell.innerText());
     }
-    // Delete last -1
+
     const indexDelete = columnDataBeforeDelete.length - 1;
     if (columnDataBeforeDelete.length < indexDelete) {
       throw new Error("Błąd: Index do usunięcia większy niż długość tabeli!");
@@ -76,7 +74,7 @@ test.describe("test", () => {
       .locator(".remove-item")
       .nth(indexDelete - 1)
       .click();
-    // Save data after delete
+
     const cellsAfterDelete = await page
       .locator("table tbody tr td:nth-child(3)")
       .all();
@@ -84,7 +82,7 @@ test.describe("test", () => {
     for (const cell of cellsAfterDelete) {
       columnDataAfterDelete.push(await cell.innerText());
     }
-    // Assert result
+
     const isRecordDeleted = !columnDataAfterDelete.includes(targetValue);
     expect(isRecordDeleted).toBe(true);
   });
@@ -129,7 +127,6 @@ test.describe("test", () => {
     for (const value of couponValues) {
       let dialogMessage = "";
 
-      // Obsługa pojedynczego dialogu
       const dialogHandler = page.once("dialog", async (dialog) => {
         dialogMessage = dialog.message();
         await dialog.accept();
@@ -137,7 +134,7 @@ test.describe("test", () => {
 
       await cartPage.enterYourCoupon.fill(`save${value}`);
       await cartPage.applyCouponButton.click();
-      await page.waitForTimeout(200);
+      await page.waitForTimeout(500);
 
       expect(dialogMessage).toBe("❌ Invalid coupon code. Please try again.");
 

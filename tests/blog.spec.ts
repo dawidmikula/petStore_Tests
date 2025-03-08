@@ -1,16 +1,13 @@
 import test, { expect } from "@playwright/test";
 import { Header } from "../components/header.component";
-import { ProfilePage } from "../pages/profile.page";
 import { BlogPage } from "../pages/blog.page";
 import { getBlogPosts } from "../utils/blogContent";
 
 test.describe("test", () => {
-  let profilePage: ProfilePage;
   let header: Header;
   let blogPage: BlogPage;
 
   test.beforeEach(async ({ page }) => {
-    profilePage = new ProfilePage(page);
     header = new Header(page);
     blogPage = new BlogPage(page);
 
@@ -51,11 +48,9 @@ test.describe("test", () => {
         const blogPosts = await getBlogPosts(page);
         expect(blogPosts.length).toBeGreaterThan(0);
 
-        // Check each blog post for data integrity
         for (const post of blogPosts) {
           expect(post.date).toBe(expectedDate[index]);
 
-          // Custom error handling with failure messages
           if (post.link === "No link") {
             throw new Error(`Post with date ${post.date} has no link.`);
           }
@@ -70,7 +65,6 @@ test.describe("test", () => {
           }
         }
       } catch (error) {
-        // Log the error and rethrow it so the test fails
         console.error(
           `Error checking posts for date ${expectedDate[index]}:`,
           error.message

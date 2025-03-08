@@ -6,11 +6,11 @@ export function sumCart(tableData: string[][]) {
   for (let i = 0; i < tableData.length; i++) {
     const row = tableData[i];
 
-    const price = cleanNumber(row[4]); // 5. komórka - cena
-    const quantity = cleanNumber(row[5]); // 6. komórka - ilość
-    const subtotal = Number(price) * Number(quantity); // Obliczamy wartość dla wiersza
+    const price = cleanNumber(row[4]);
+    const quantity = cleanNumber(row[5]);
+    const subtotal = Number(price) * Number(quantity);
 
-    totalSum += subtotal; // Sumujemy wartość wszystkich wierszy
+    totalSum += subtotal;
   }
   return totalSum;
 }

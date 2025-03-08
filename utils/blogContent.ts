@@ -6,7 +6,7 @@ type BlogPost = {
   title: string;
   description: string;
   link: string;
-  image: boolean; // Add the image field
+  image: boolean; 
 };
 
 export async function getBlogPosts(page: Page): Promise<BlogPost[]> {

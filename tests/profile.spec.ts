@@ -11,12 +11,12 @@ test.describe("test", () => {
     profilePage = new ProfilePage(page);
     header = new Header(page);
 
-    await page.goto("https://dawidmikula.github.io/petStore/index.html");
-    await header.profileButton.click();
+    await page.goto("https://dawidmikula.github.io/petStore/profile.html");
+    // await header.profileButton.click();
   });
 
   test("Check all visible text on Profile tab", async ({ page }) => {
-    await expect(await page.title()).toBe("YourPuppy - Profile")
+    expect(await page.title()).toBe("YourPuppy - Profile");
     await expect(profilePage.myProfileTittle).toHaveText("My Profile");
     await expect(profilePage.myProfileDesription).toHaveText(
       "Manage your personal information"
@@ -34,8 +34,8 @@ test.describe("test", () => {
     let dialogMessage: string = "";
 
     page.on("dialog", async (dialog) => {
-      dialogMessage = dialog.message(); // Przypisanie treści komunikatu do zmiennej
-      await dialog.accept(); // Zamknięcie okna dialogowego
+      dialogMessage = dialog.message();
+      await dialog.accept();
     });
 
     await provideProfileData(page, profilePage, {
@@ -97,23 +97,21 @@ test.describe("test", () => {
   test("Positive delete profile", async ({ page }) => {
     let dialogMessages: string[] = [];
 
-    // Nasłuchiwanie na dialogi
     page.on("dialog", async (dialog) => {
-      dialogMessages.push(dialog.message()); // Dodajemy komunikat do tablicy
+      dialogMessages.push(dialog.message());
 
       if (dialog.message() === "✅ Profile updated successfully!") {
-        await dialog.accept(); // Klikamy "OK" w potwierdzeniu usunięcia
+        await dialog.accept();
       } else if (
         dialog.message() ===
         "⚠ Are you sure you want to delete your profile? This action cannot be undone!"
       ) {
-        await dialog.accept(); // Zamykamy inne dialogi (np. potwierdzenie sukcesu)
+        await dialog.accept();
       } else if (dialog.message() === "🗑 Profile deleted successfully!") {
         await dialog.accept();
       }
     });
 
-    // Wypełnienie formularza
     await provideProfileData(page, profilePage, {
       firstName: "Dawid",
       lastName: "Mikula",
@@ -123,32 +121,26 @@ test.describe("test", () => {
       birthdate: "2012-02-05",
       aboutMe: "Dawid Meaaaaaa",
     });
+
     await profilePage.saveChangesButton.click();
-
-    // Kliknięcie "Usuń profil"
     await profilePage.deleteProfileButton.click();
-
-    // Oczekiwanie na krótki czas, aby sprawdzić, czy dialogi się pojawią
     await page.waitForTimeout(1000);
 
-    // Sprawdzenie, czy pierwszym komunikatem było potwierdzenie usunięcia
     expect(dialogMessages[1]).toBe(
       "⚠ Are you sure you want to delete your profile? This action cannot be undone!"
     );
 
-    // Sprawdzenie, czy po zaakceptowaniu pojawił się komunikat o sukcesie
     expect(dialogMessages[2]).toBe("🗑 Profile deleted successfully!");
   });
 
   test("Negative delete profile", async ({ page }) => {
     let dialogMessages: string[] = [];
 
-    // Nasłuchiwanie na dialogi
     page.on("dialog", async (dialog) => {
-      dialogMessages.push(dialog.message()); // Dodajemy komunikat do tablicy
+      dialogMessages.push(dialog.message());
 
       if (dialog.message() === "✅ Profile updated successfully!") {
-        await dialog.accept(); // Klikamy "OK" w potwierdzeniu usunięcia
+        await dialog.accept();
       } else if (
         dialog.message() ===
         "⚠ Are you sure you want to delete your profile? This action cannot be undone!"
@@ -157,7 +149,6 @@ test.describe("test", () => {
       }
     });
 
-    // Wypełnienie formularza
     await provideProfileData(page, profilePage, {
       firstName: "Dawid",
       lastName: "Mikula",

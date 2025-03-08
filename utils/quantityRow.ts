@@ -7,7 +7,6 @@ export async function quantityRow(
 ) {
   rowIndex--;
 
-  // ✅ Czekanie na wiersze w tabeli
   await page.waitForSelector("#cart tbody tr");
 
   const rows = await page.locator("#cart tbody tr").all();
@@ -28,7 +27,6 @@ export async function quantityRow(
 
   const quantityInput = rows[rowIndex].locator(".change-quantity");
 
-  // ✅ Sprawdzenie, czy input istnieje
   if ((await quantityInput.count()) === 0) {
     throw new Error(
       `Błąd: Nie znaleziono pola Quantity w wierszu ${rowIndex + 1}.`

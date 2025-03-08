@@ -17,7 +17,7 @@ export async function checkLink(
 export async function checkFullLink(
   page: Page,
   linkLocator: Locator,
-  expectedHref: string //tu nie było string
+  expectedHref: string
 ) {
   const aboutUsUrl = await linkLocator.getAttribute("href");
   const newTab = await page.context().newPage();
@@ -28,7 +28,7 @@ export async function checkFullLink(
     );
   }
 
-  await newTab.goto(new URL(aboutUsUrl, page.url()).toString()); // Tworzy pełny URL
+  await newTab.goto(new URL(aboutUsUrl, page.url()).toString());
   await expect(newTab).toHaveURL(
     `https://dawidmikula.github.io/petStore/${expectedHref}`
   );

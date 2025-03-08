@@ -3,13 +3,16 @@ import { expect } from "@playwright/test";
 export async function validateAndScreenshot(
   page,
   locator,
-  expectedMessage,
+  expectedMessagePl,
+  expectedMessageEng,
   screenshotPath
 ) {
   const validationMessage = await locator.evaluate(
     (el) => (el as HTMLInputElement).validationMessage
   );
-  expect(validationMessage).toBe(expectedMessage);
+  expect(validationMessage).toMatch(
+    new RegExp(`^(${expectedMessagePl}|${expectedMessageEng})$`)
+  );
 
   await locator.evaluate((el) => el.scrollIntoView({ block: "center" }));
   await page.waitForTimeout(200);

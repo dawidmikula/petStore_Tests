@@ -5,17 +5,15 @@ import { Footer } from "../components/footer.component";
 import { checkFullLink, checkLink } from "../utils/chceckLink";
 
 test.describe("test", () => {
-  let profilePage: ProfilePage;
   let header: Header;
   let footer: Footer;
 
   test.beforeEach(async ({ page }) => {
-    profilePage = new ProfilePage(page);
     header = new Header(page);
     footer = new Footer(page);
 
-    await page.goto("https://dawidmikula.github.io/petStore/index.html");
-    await header.profileButton.click();
+    await page.goto("https://dawidmikula.github.io/petStore/profile.html");
+    // await header.profileButton.click();
   });
 
   test("Footer - Shop icon and Contact collumn", async ({ page }) => {
@@ -123,7 +121,6 @@ test.describe("test", () => {
     );
     await expect(footer.paymentMethodsButtonInstallFooter).toBeVisible();
 
-    // Copywright
     const currentYear = new Date().getFullYear();
     await expect(footer.copywrightFooter).toHaveText(
       `Created By Dawid M | All Rights Reserved | © ${currentYear.toString()}`
