@@ -15,7 +15,18 @@ test.describe("test", () => {
     // await header.shopButton.click();
   });
 
-  test("Blog - check all products", async ({ page }) => {
+  test("Shop - check text and pages functionality", async ({ page }) => {
+    await expect(shopPage.shopHeader).toHaveText("STORE");
+    await expect(shopPage.shopDesc).toHaveText("Take care of your pet");
+
+    await expect(shopPage.goToPrevPage).toHaveClass("prev disabled");
+    await expect(shopPage.goToNextPage).toHaveClass("next");
+    await shopPage.secondLastElement.click();
+    await expect(shopPage.goToPrevPage).toHaveClass("prev");
+    await expect(shopPage.goToNextPage).toHaveClass("next disabled");
+  });
+
+  test("Shop - check all products", async ({ page }) => {
     const paginationLinks = await page.$$eval("#pagination a", (links) =>
       links
         .map((link) => link.textContent?.trim())

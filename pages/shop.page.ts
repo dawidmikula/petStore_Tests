@@ -7,6 +7,8 @@ export class ShopPage {
 
   goToPrevPage = this.page.locator("#pagination .prev");
   goToNextPage = this.page.locator("#pagination .next");
+  private lastShopPage = this.page.locator("#pagination a");
+  secondLastElement = this.lastShopPage.nth(-1);
 }
 
 export const shopSelectors = {
