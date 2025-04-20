@@ -4,7 +4,7 @@ import { ContactPage } from "../pages/contact.page";
 import { validateAndScreenshot } from "../utils/validateAndScreenshot";
 import { assertParseContactInfo } from "../utils/assertParseContactInfo";
 
-test.describe("test", () => {
+test.describe("Contact Page", () => {
   let header: Header;
   let contactPage: ContactPage;
 

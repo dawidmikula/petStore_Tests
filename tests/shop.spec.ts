@@ -3,7 +3,7 @@ import { Header } from "../components/header.component";
 import { ShopPage, shopSelectors } from "../pages/shop.page";
 import { getShopProducts } from "../utils/shopContent";
 
-test.describe("test", () => {
+test.describe("Shop Page", () => {
   let header: Header;
   let shopPage: ShopPage;
 

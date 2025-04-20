@@ -3,7 +3,7 @@ import { Header } from "../components/header.component";
 import { BlogPage } from "../pages/blog.page";
 import { Newsletter } from "../components/newsletter.component";
 
-test.describe("test", () => {
+test.describe("Newsletter", () => {
   let header: Header;
   let newsletter: Newsletter;
   let blogPage: BlogPage;

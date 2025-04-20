@@ -3,7 +3,7 @@ import { ProfilePage } from "../pages/profile.page";
 import { Header } from "../components/header.component";
 import { provideProfileData } from "../utils/provideProfileData";
 
-test.describe("test", () => {
+test.describe("Profile Page", () => {
   let profilePage: ProfilePage;
   let header: Header;
 
@@ -17,8 +17,8 @@ test.describe("test", () => {
 
   test("Check all visible text on Profile tab", async ({ page }) => {
     expect(await page.title()).toBe("YourPuppy - Profile");
-    await expect(profilePage.myProfileTittle).toHaveText("My Profile");
-    await expect(profilePage.myProfileDesription).toHaveText(
+    await expect(profilePage.myProfileTitle).toHaveText("My Profile");
+    await expect(profilePage.myProfileDesc).toHaveText(
       "Manage your personal information"
     );
 

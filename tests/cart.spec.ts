@@ -7,7 +7,7 @@ import { cleanNumber } from "../utils/cleanNumber";
 import { sumCart } from "../utils/sumCart";
 import { quantityRow } from "../utils/quantityRow";
 
-test.describe("test", () => {
+test.describe("Cart Page", () => {
   let header: Header;
   let cartPage: CartPage;
 

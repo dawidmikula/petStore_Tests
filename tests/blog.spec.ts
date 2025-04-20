@@ -3,7 +3,7 @@ import { Header } from "../components/header.component";
 import { BlogPage } from "../pages/blog.page";
 import { getBlogPosts } from "../utils/blogContent";
 
-test.describe("test", () => {
+test.describe("Blog Page", () => {
   let header: Header;
   let blogPage: BlogPage;
 
@@ -17,7 +17,7 @@ test.describe("test", () => {
 
   test("Blog - check after first entry", async ({ page }) => {
     await expect(blogPage.blogHeader).toHaveText("BLOG");
-    await expect(blogPage.blogDescrition).toHaveText("We write You read");
+    await expect(blogPage.blogDescription).toHaveText("We write You read");
     await expect(blogPage.startDateFilter).toHaveText("Select Date:");
     await expect(blogPage.blogDateFilterButton).toHaveText("Filter");
     await expect(blogPage.blogDateResetButton).toHaveText("Reset");

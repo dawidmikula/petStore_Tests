@@ -2,7 +2,7 @@ import test, { expect } from "@playwright/test";
 import { Header } from "../components/header.component";
 import { ProductPage } from "../pages/product.page";
 
-test.describe("test", () => {
+test.describe("Product Page", () => {
   let header: Header;
   let productPage: ProductPage;
 

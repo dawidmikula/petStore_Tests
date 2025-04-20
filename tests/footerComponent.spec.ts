@@ -1,10 +1,9 @@
 import { test, expect } from "@playwright/test";
-import { ProfilePage } from "../pages/profile.page";
 import { Header } from "../components/header.component";
 import { Footer } from "../components/footer.component";
-import { checkFullLink, checkLink } from "../utils/chceckLink";
+import { checkFullLink, checkLink } from "../utils/checkLink";
 
-test.describe("test", () => {
+test.describe("Footer", () => {
   let header: Header;
   let footer: Footer;
 
