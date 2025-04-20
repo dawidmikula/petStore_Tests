@@ -1,7 +1,7 @@
 export class CartPage {
   constructor(private page: Page) {}
 
-  // Page header
+  // Page Header
   headerCart = this.page.locator("#page-header h2");
   headerDescriptionCart = this.page.locator("#page-header p");
 
@@ -18,7 +18,7 @@ export class CartPage {
   enterYourCoupon = this.page.getByPlaceholder("Enter Your Coupon");
   applyCouponButton = this.page.getByRole("button", { name: "Apply" });
 
-  // Cart totals
+  // Cart Totals
   cartTotals = this.page.locator(".subtotal h3");
   cartSubtotalCost = this.page.locator(
     ".subtotal td:has-text('Cart Subtotal')"

@@ -3,9 +3,11 @@ import { Page } from "@playwright/test";
 export class ProfilePage {
   constructor(private page: Page) {}
 
-  myProfileTittle = this.page.getByRole("heading", { name: "My Profile" });
-  myProfileDesription = this.page.getByText("Manage your personal");
+  // Profile Header
+  myProfileTitle = this.page.getByRole("heading", { name: "My Profile" });
+  myProfileDesc = this.page.getByText("Manage your personal");
 
+  // Profile Form
   firstNameHeader = this.page.getByText("First Name:");
   firstNameField = this.page.getByRole("textbox", { name: "First Name:" });
   firstNameError = this.page.getByText("First name is required.");
@@ -27,7 +29,7 @@ export class ProfilePage {
   addressError = this.page.getByText("Address is required.");
 
   birthdateHeader = this.page.getByText("Date of Birth:");
-  birthdateField = this.page.getByRole("textbox", { name: "Date of Birth:" }); 
+  birthdateField = this.page.getByRole("textbox", { name: "Date of Birth:" });
   birthdateError = this.page.getByText("You must be at least 13 years");
 
   aboutMeHeader = this.page.getByText("About Me:");
@@ -38,4 +40,3 @@ export class ProfilePage {
     name: "Delete Profile",
   });
 }
-

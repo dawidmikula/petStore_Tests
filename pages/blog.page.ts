@@ -2,9 +2,11 @@ import { Page } from "@playwright/test";
 export class BlogPage {
   constructor(private page: Page) {}
 
+  // Blog Header
   blogHeader = this.page.locator("#page-header h2");
-  blogDescrition = this.page.locator("#page-header p");
+  blogDescription = this.page.locator("#page-header p");
 
+  // Blog Content
   startDateFilter = this.page.locator("#blog-filter :has-text('Select date:')");
   blogDateInput = this.page.locator("#blog-date");
   blogDateFilterButton = this.page.locator("#filter-date");
@@ -13,9 +15,9 @@ export class BlogPage {
   noPostsFoundMessage = this.page.getByText("⚠ No posts found.");
 
   nextBlogPage = this.page.locator("#pagination a").last();
-  //
 }
 
+// Blog Posts
 export const blogSelectors = {
   blogBox: "#blog .blog-box",
   image: ".blog-img",

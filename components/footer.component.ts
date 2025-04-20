@@ -58,7 +58,7 @@ export class Footer {
     'a:has-text("Contact")'
   );
 
-  // My account
+  // My Account
   myAccountHeaderFooter = this.myAccountFooterCollumn.locator(
     "h4:has-text('My account')"
   );

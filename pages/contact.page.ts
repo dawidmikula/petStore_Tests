@@ -3,15 +3,16 @@ import { Page } from "@playwright/test";
 export class ContactPage {
   constructor(private page: Page) {}
 
+  // Contact Title
   contactUsHeader = this.page.locator("#page-header h2");
   contactUsDesc = this.page.locator("#page-header p");
 
+  // Get in Touch
   getInTouchSpan = this.page.locator('span:text("GET IN TOUCH")');
   ourLocationsHeader = this.page.locator(
     'h2:text("Our locations, but if you want You can call us now.")'
   );
   headOfficeHeader = this.page.locator('h3:text("Head Office")');
-
   addressIcon = this.page.locator("i.fa-map");
   address = this.page.locator(".details li").nth(0);
   emailIcon = this.page.locator("i.fa-envelope");
@@ -21,8 +22,10 @@ export class ContactPage {
   workingHoursIcon = this.page.locator("i.fa-clock");
   workingHours = this.page.locator(".details li").nth(3);
 
+  // Map
   map = this.page.locator(".map");
 
+  // Leave a Message
   messageHeader = this.page.locator('#contact-form span:text("LEAVE")');
   messageDesc = this.page.locator("#contact-form h2");
 
@@ -39,9 +42,9 @@ export class ContactPage {
   );
   submitButton = this.page.locator('#contact-form :text("Submit")');
 
+  // Our Employes
   personCount = this.page.locator(".people .person");
-  personToCheck = (index: number) =>
-    page.locator(".people .person").nth(index);
+  personToCheck = (index: number) => page.locator(".people .person").nth(index);
   phonePersonToCheck = (index: number) =>
     page.locator(".phone-wrapper").nth(index);
 }
