@@ -145,4 +145,45 @@ test.describe("Cart Page", () => {
       expect(valueAfterCouponApply).toBe(valueBeforeCouponApply);
     }
   });
+
+  test("Cart - Applying correct coupon", async ({ page }) => {
+    const couponValues = [10, 25, 50, 100];
+    const valueBeforeCouponApply = cleanNumber(
+      await cartPage.totalCostValue.innerText()
+    );
+
+    for (const value of couponValues) {
+      let dialogMessage = "";
+
+      const dialogHandler = page.once("dialog", async (dialog) => {
+        dialogMessage = dialog.message();
+        await dialog.accept();
+      });
+
+      await cartPage.enterYourCoupon.fill(`save${value}`);
+      await cartPage.applyCouponButton.click();
+      await page.waitForTimeout(500);
+
+      expect(dialogMessage).toBe(
+        "✅ Discount applied! -" + value + "% off your total."
+      );
+
+      const presentedValueAfterCouponApply = cleanNumber(
+        await cartPage.totalCostValue.innerText()
+      );
+
+      let calculatedExpectedValue = Number(
+        (
+          valueBeforeCouponApply -
+          (valueBeforeCouponApply / 100) * value
+        ).toFixed(2)
+      );
+
+      if (Object.is(calculatedExpectedValue, -0)) {
+        calculatedExpectedValue = 0;
+      }
+
+      expect(presentedValueAfterCouponApply).toBe(calculatedExpectedValue);
+    }
+  });
 });
