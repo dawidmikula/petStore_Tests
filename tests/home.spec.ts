@@ -1,15 +1,15 @@
 import test, { expect } from "@playwright/test";
-import { Header } from "../components/header.component";
-import { HomePage } from "../pages/home.page";
-import exp from "constants";
-import { checkFullLink } from "../utils/chceckLink";
+import {
+  featuredProductSelectors,
+  HomePage,
+  newArrivalsSelectors,
+} from "../pages/home.page";
+import { productsOnHomePage } from "../utils/productsOnHomePage";
 
 test.describe("Home Page", () => {
-  let header: Header;
   let homePage: HomePage;
 
   test.beforeEach(async ({ page }) => {
-    header = new Header(page);
     homePage = new HomePage(page);
 
     await page.goto("https://dawidmikula.github.io/petStore/index.html");
@@ -31,7 +31,7 @@ test.describe("Home Page", () => {
   });
 
   test("Home - Features", async ({ page }) => {
-    const nazwy = [
+    const names = [
       "Free Shipping",
       "Online Order",
       "Save Money",
@@ -43,12 +43,37 @@ test.describe("Home Page", () => {
     for (let i = 0; i <= 5; i++) {
       await expect(homePage.feature(i)).toBeVisible();
       await expect(homePage.featureImage(i)).toBeVisible();
-      await expect(homePage.featureName(i)).toHaveText(`${nazwy[i]}`);
+      await expect(homePage.featureName(i)).toHaveText(`${names[i]}`);
     }
   });
 
   test("Home - Featured products", async ({ page }) => {
-    //
+    await expect(homePage.featuredProductsHeader).toHaveText(
+      "Featured Products"
+    );
+    await expect(homePage.featuredProductsDesc).toHaveText(
+      "Summer Collection New Modern Design"
+    );
+
+    let allFeaturedProducts: allFeaturedProducts[] = [];
+
+    const homePageProducts = await productsOnHomePage(
+      page,
+      featuredProductSelectors
+    );
+    expect(homePageProducts.length).toBeGreaterThan(7);
+    expect(homePageProducts.length).toBeLessThan(9);
+
+    allFeaturedProducts = [...allFeaturedProducts, ...homePageProducts];
+
+    for (const product of allFeaturedProducts) {
+      await expect(product).not.toBe(false);
+      await expect(product.categ).not.toBe("No category");
+      await expect(product.name).not.toBe("No name");
+      await expect(product.stars).not.toBe(0);
+      await expect(product.price).not.toBe("No price");
+      await expect(product.link).not.toBe(false);
+    }
   });
 
   test("Home - Banner", async ({ page }) => {
@@ -60,10 +85,47 @@ test.describe("Home Page", () => {
   });
 
   test("Home - New Arrivals", async ({ page }) => {
-    //
+    await expect(homePage.newArrivalsHeader).toHaveText("New Arrivals");
+    await expect(homePage.newArrivalsDesc).toHaveText(
+      "Summer Collection New Modern Design"
+    );
+
+    let allNewArrivalsProducts: allNewArrivalsProducts[] = [];
+
+    const homePageProducts = await productsOnHomePage(
+      page,
+      newArrivalsSelectors
+    );
+    expect(homePageProducts.length).toBeGreaterThan(7);
+    expect(homePageProducts.length).toBeLessThan(9);
+
+    allNewArrivalsProducts = [...allNewArrivalsProducts, ...homePageProducts];
+
+    for (const product of allNewArrivalsProducts) {
+      await expect(product).not.toBe(false);
+      await expect(product.categ).not.toBe("No category");
+      await expect(product.name).not.toBe("No name");
+      await expect(product.stars).not.toBe(0);
+      await expect(product.price).not.toBe("No price");
+      await expect(product.link).not.toBe(false);
+    }
   });
 
   test("Home - Banner x3", async ({ page }) => {
-    //
+    const bannerX3 = new Map<string, string>([
+      ["SEASONAL SALE", "Winter Collection -50% OFF"],
+      ["NEW DOG COLLECTION", "Spring / Summer 2023"],
+      ["CAT TOYS", "New Trendy Prints"],
+    ]);
+
+    for (let i = 0; i <= 2; i++) {
+      await expect(homePage.bannerX3Box(i)).toBeVisible();
+      await expect(homePage.bannerX3Header(i)).toHaveText(
+        [...bannerX3.keys()][i]
+      );
+      await expect(homePage.bannerX3Desc(i)).toHaveText(
+        [...bannerX3.values()][i]
+      );
+    }
   });
 });
