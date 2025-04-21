@@ -45,19 +45,33 @@ test.describe("Cart Page", () => {
     // await expect(cartPage.).toHaveText("");
   });
 
-  // test("Cart - moving porducts", async ({ page }) => {
-  //   // Kliknięcie komórki w 2. wierszu (index 1) i 1. kolumnie (index 0)
-  //   const suwak = (await page.locator(".drag-handle").all()).length;
-  //   const cel = page.locator(".drag-handle").nth(1);
+  test("Cart - moving porducts", async ({ page }) => {
+    await cartPage.productName.nth(0).waitFor({ timeout: 1000 });
 
-  //   console.log(suwak)
-  //  // await suwak.dragTo(cel);
-  // });
+    const slideFrom = cartPage.dragHandle(0);
+    const slideTo = cartPage.dragHandle(2);
+
+    const cells = await cartPage.productName.all();
+    const columnDataBeforeMoving: string[] = [];
+    for (const cell of cells) {
+      columnDataBeforeMoving.push(await cell.innerText());
+    }
+
+    await slideFrom.dragTo(slideTo);
+
+    const cellsAfterMoving = await page
+      .locator("table tbody tr td:nth-child(3)")
+      .all();
+    const columnDataAfterMoving: string[] = [];
+    for (const cell of cellsAfterMoving) {
+      columnDataAfterMoving.push(await cell.innerText());
+    }
+
+    expect(columnDataAfterMoving[2]).toBe(columnDataBeforeMoving[0]);
+  });
 
   test("Cart - deleting porducts", async ({ page }) => {
-    await page.waitForSelector("table tbody tr td:nth-child(3)", {
-      timeout: 5000,
-    });
+    await cartPage.productName.nth(0).waitFor({ timeout: 1000 });
 
     const cells = await page.locator("table tbody tr td:nth-child(3)").all();
     const columnDataBeforeDelete: string[] = [];

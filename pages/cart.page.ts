@@ -13,6 +13,10 @@ export class CartPage {
   quantityTableHead = this.page.locator("thead td").nth(4);
   subtotalTableHead = this.page.locator("thead td").nth(5);
 
+  // Cart Collumns
+  dragHandle = (index: number) => page.locator(".drag-handle").nth(index);
+  productName = this.page.locator("table tbody tr td:nth-child(3)");
+
   // Cart Coupon
   applyCouponHeader = this.page.locator(".coupon h3");
   enterYourCoupon = this.page.getByPlaceholder("Enter Your Coupon");
