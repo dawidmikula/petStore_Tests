@@ -148,7 +148,6 @@ test.describe("Contact Page", () => {
       await field.locator.fill(field.value);
       await contactPage.submitButton.click();
     }
-
     await validateAndScreenshot(
       page,
       contactPage.acceptRegulationsCheckbox,
@@ -160,7 +159,6 @@ test.describe("Contact Page", () => {
     await contactPage.subjectMessage.evaluate((el) =>
       el.scrollIntoView({ block: "center" })
     );
-    await contactPage.acceptRegulationsCheckbox.check();
     await page.waitForTimeout(200);
     await page.screenshot({ path: "screens/6-viewport.png", fullPage: false });
   });

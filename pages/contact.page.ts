@@ -26,6 +26,7 @@ export class ContactPage {
   map = this.page.locator(".map");
 
   // Leave a Message
+  leaveAMessageBox = this.page.locator("#form-details");
   messageHeader = this.page.locator('#contact-form span:text("LEAVE")');
   messageDesc = this.page.locator("#contact-form h2");
 
