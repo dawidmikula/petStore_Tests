@@ -12,8 +12,8 @@ test.describe("Contact Page", () => {
     header = new Header(page);
     contactPage = new ContactPage(page);
 
-    await page.goto("https://dawidmikula.github.io/petStore/contact.html");
-    // await header.contactButton.click();
+    await page.goto("");
+    await header.contactButton.click();
   });
 
   test("Contact - Text checking ", async ({ page }) => {
@@ -64,7 +64,6 @@ test.describe("Contact Page", () => {
   });
 
   test("Contact - Map", async ({ page }) => {
-    // TBD
     await expect(contactPage.map).toBeVisible();
   });
 

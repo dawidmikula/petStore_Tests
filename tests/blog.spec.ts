@@ -11,8 +11,8 @@ test.describe("Blog Page", () => {
     header = new Header(page);
     blogPage = new BlogPage(page);
 
-    await page.goto("https://dawidmikula.github.io/petStore/blog.html");
-    // await header.cartButton.click();
+    await page.goto("");
+   await header.blogButton.click();
   });
 
   test("Blog - check after first entry", async ({ page }) => {

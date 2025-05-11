@@ -1,5 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
+require('dotenv').config();
+
 export default defineConfig({
   testDir: "./tests",
   /* Run tests in files in parallel */
@@ -14,8 +16,7 @@ export default defineConfig({
   reporter: "html",
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    // baseURL: 'http://127.0.0.1:3000',
-
+    baseURL: "https://dawidmikula.github.io/petStore/",
     trace: "retain-on-failure",
   },
 

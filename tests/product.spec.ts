@@ -10,9 +10,7 @@ test.describe("Product Page", () => {
     header = new Header(page);
     productPage = new ProductPage(page);
 
-    await page.goto(
-      "https://dawidmikula.github.io/petStore/singleProduct.html"
-    );
+    await page.goto(process.env.URL);
   });
 
   test("Product - text verification", async ({ page }) => {

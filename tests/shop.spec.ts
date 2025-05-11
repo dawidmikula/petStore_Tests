@@ -11,8 +11,8 @@ test.describe("Shop Page", () => {
     header = new Header(page);
     shopPage = new ShopPage(page);
 
-    await page.goto("https://dawidmikula.github.io/petStore/shop.html");
-    // await header.shopButton.click();
+    await page.goto("");
+    await header.shopButton.click();
   });
 
   test("Shop - check text and pages functionality", async ({ page }) => {

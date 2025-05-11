@@ -12,7 +12,7 @@ test.describe("Home Page", () => {
   test.beforeEach(async ({ page }) => {
     homePage = new HomePage(page);
 
-    await page.goto("https://dawidmikula.github.io/petStore/index.html");
+    await page.goto("");
   });
 
   test("Home - Hero", async ({ page }) => {

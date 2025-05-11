@@ -15,8 +15,8 @@ test.describe("Cart Page", () => {
     header = new Header(page);
     cartPage = new CartPage(page);
 
-    await page.goto("https://dawidmikula.github.io/petStore/cart.html");
-    // await header.cartButton.click();
+    await page.goto("");
+    await header.cartButton.click();
   });
 
   test("Cart - text checking", async ({ page }) => {

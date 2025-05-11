@@ -21,8 +21,8 @@ test.describe("Profile Page", () => {
     profilePage = new ProfilePage(page);
     header = new Header(page);
 
-    await page.goto("https://dawidmikula.github.io/petStore/profile.html");
-    // await header.profileButton.click();
+    await page.goto("");
+    await header.profileButton.click();
   });
 
   test("Check all visible text on Profile tab", async ({ page }) => {

@@ -13,8 +13,8 @@ test.describe("Newsletter", () => {
     newsletter = new Newsletter(page);
     blogPage = new BlogPage(page);
 
-    await page.goto("https://dawidmikula.github.io/petStore/blog.html");
-    // await header.blogButton.click();
+    await page.goto("");
+    await header.blogButton.click();
   });
 
   test("Newsletter - check text with empty input", async ({ page }) => {

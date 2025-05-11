@@ -11,8 +11,8 @@ test.describe("Footer", () => {
     header = new Header(page);
     footer = new Footer(page);
 
-    await page.goto("https://dawidmikula.github.io/petStore/profile.html");
-    // await header.profileButton.click();
+    await page.goto("");
+    await header.profileButton.click();
   });
 
   test("Footer - Shop icon and Contact collumn", async ({ page }) => {
