@@ -2,6 +2,16 @@ import { test, expect } from "@playwright/test";
 import { ProfilePage } from "../pages/profile.page";
 import { Header } from "../components/header.component";
 import { provideProfileData } from "../utils/provideProfileData";
+import { faker } from "@faker-js/faker";
+import {
+  generateBirthdate,
+  generateCity,
+  generateFirstName,
+  generateLastName,
+  generatePhoneNumber,
+  generateRandomEmail,
+  generateRandomWords,
+} from "../utils/profileData";
 
 test.describe("Profile Page", () => {
   let profilePage: ProfilePage;
@@ -39,13 +49,13 @@ test.describe("Profile Page", () => {
     });
 
     await provideProfileData(page, profilePage, {
-      firstName: "Dawid",
-      lastName: "Mikula",
-      email: "dawid@dawid.pl",
-      phone: "000 000 000",
-      address: "Kunki",
-      birthdate: "2012-02-05",
-      aboutMe: "Dawid Meaaaaaa",
+      firstName: generateFirstName(),
+      lastName: generateLastName(),
+      email: generateRandomEmail(),
+      phone: generatePhoneNumber(),
+      address: generateCity(),
+      birthdate: generateBirthdate(),
+      aboutMe: generateRandomWords(),
     });
     await profilePage.saveChangesButton.click();
 
@@ -113,13 +123,13 @@ test.describe("Profile Page", () => {
     });
 
     await provideProfileData(page, profilePage, {
-      firstName: "Dawid",
-      lastName: "Mikula",
-      email: "dawid@dawid.pl",
-      phone: "000 000 000",
-      address: "Kunki",
-      birthdate: "2012-02-05",
-      aboutMe: "Dawid Meaaaaaa",
+      firstName: generateFirstName(),
+      lastName: generateLastName(),
+      email: generateRandomEmail(),
+      phone: generatePhoneNumber(),
+      address: generateCity(),
+      birthdate: generateBirthdate(),
+      aboutMe: generateRandomWords(),
     });
 
     await profilePage.saveChangesButton.click();
@@ -150,13 +160,13 @@ test.describe("Profile Page", () => {
     });
 
     await provideProfileData(page, profilePage, {
-      firstName: "Dawid",
-      lastName: "Mikula",
-      email: "dawid@dawid.pl",
-      phone: "000 000 000",
-      address: "Kunki",
-      birthdate: "2012-02-05",
-      aboutMe: "Dawid Meaaaaaa",
+      firstName: generateFirstName(),
+      lastName: generateLastName(),
+      email: generateRandomEmail(),
+      phone: generatePhoneNumber(),
+      address: generateCity(),
+      birthdate: generateBirthdate(),
+      aboutMe: generateRandomWords(),
     });
     await profilePage.saveChangesButton.click();
     await profilePage.deleteProfileButton.click();
