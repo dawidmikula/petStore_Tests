@@ -4,3 +4,9 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /screens
+screens/1-name.png
+screens/2-email.png
+screens/3-subject.png
+screens/4-content.png
+screens/5-checkbox.png
+screens/6-viewport.png
